@@ -12,8 +12,8 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('Projects')
     .addBearerAuth()
-    // .addServer('http://192.168.1.38:4000')
     .addServer('http://localhost:4000')
+    .addServer('http://192.168.1.126:4000')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

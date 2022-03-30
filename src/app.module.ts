@@ -5,7 +5,8 @@ import { AppService } from './app.service';
 import { ProjectsModule } from './projects/projects.module';
 import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
-
+import { APP_INTERCEPTOR } from "@nestjs/core";
+import { MorganModule, MorganInterceptor } from "nest-morgan";
 @Module({
   imports: [
     ProjectsModule,
@@ -21,8 +22,12 @@ import { UsersModule } from './users/users.module';
     }),
     TasksModule,
     UsersModule,
+    MorganModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, {
+    provide: APP_INTERCEPTOR,
+    useClass: MorganInterceptor("dev")
+  }],
 })
 export class AppModule {}

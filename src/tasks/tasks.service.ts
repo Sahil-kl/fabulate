@@ -57,7 +57,7 @@ export class TasksService {
   async upload(file: any, createdAttachmentDto: CreatedAttachmentDto) {
     try {
       console.log(file);
-      createdAttachmentDto.fileExtension = file.fileExtName;
+      createdAttachmentDto.fileExtension = file.fileExtname;
       console.log(createdAttachmentDto.fileExtension);
       return await this.taskAttachmentRepositry.save(createdAttachmentDto);
     } catch (err) {
@@ -80,6 +80,15 @@ export class TasksService {
       .leftJoinAndSelect('task.taskMemberId', 'Members')
       .leftJoinAndSelect('Members.memberId', 'Users')
       .where('task.type= :type', { type: tasktype })
+      // .andWhere('task.type= :type', { type: 'internal_task' })
+      .getMany();
+  }
+
+  async getdocs(tasktype: string) {
+    return await this.taskAttachmentRepositry
+      .createQueryBuilder('task_attachment')
+      .leftJoinAndSelect('task_attachment.attachedBy', 'User')
+      .where('task_attachment.type= :type', { type: tasktype })
       // .andWhere('task.type= :type', { type: 'internal_task' })
       .getMany();
   }

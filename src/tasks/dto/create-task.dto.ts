@@ -26,8 +26,8 @@ export class CreateTaskDto {
   createdBy: User;
 
   @IsUUID()
-  @ApiProperty()
-  project_Id: Project;
+  @ApiProperty({required : true})
+  projectId: Project;
 
   @ApiProperty()
   due_date: Date;

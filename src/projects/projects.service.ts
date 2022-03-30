@@ -57,10 +57,10 @@ export class ProjectsService {
       .createQueryBuilder('project')
       .leftJoinAndSelect('project.userId', 'User')
       .leftJoinAndSelect('project.memberId', 'Member')
-      .leftJoinAndSelect('Member.member_id', 'Users')
+      .leftJoinAndSelect('Member.memberId', 'Users')
       .leftJoinAndSelect('project.taskId', 'Task')
       // .loadRelationCountAndMap('project.taskId', 'project.taskId')
-      .where('Task.type = :type', { type: 'internal_task' })
+      // .where('Task.type = :type', { type: 'internal_task' })
       .getMany();
     if (data) {
       return data;
@@ -74,10 +74,10 @@ export class ProjectsService {
         .createQueryBuilder('project')
         .leftJoinAndSelect('project.userId', 'User')
         .leftJoinAndSelect('project.memberId', 'Member')
-        .leftJoinAndSelect('Member.member_id', 'Users')
+        .leftJoinAndSelect('Member.memberId', 'Users')
         .leftJoinAndSelect('project.taskId', 'Task')
         // .loadRelationCountAndMap('project.taskId', 'project.taskId')
-        .where('Task.type = :type', { type: 'internal_task' })
+        // .where('Task.type = :type', { type: 'internal_task' })
         .andWhere('project.id= :projectid', { projectid: id })
         .getOne();
       if (data) {

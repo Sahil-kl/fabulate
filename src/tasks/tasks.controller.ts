@@ -8,6 +8,7 @@ import {
   Res,
   UploadedFiles,
   UseInterceptors,
+  Query,
 } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -16,6 +17,7 @@ import {
   ApiConsumes,
   ApiOkResponse,
   ApiParam,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { UUIDVersion } from 'class-validator';
@@ -27,6 +29,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { CreatedAttachmentDto } from './dto/attachment.dto';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
+import { attchmentType } from './entities/attachment.entity';
 
 const editFileName = (req, file, callback) => {
   const name = file.originalname.split('.')[0];
@@ -39,8 +42,8 @@ const editFileName = (req, file, callback) => {
 };
 
 const imageFileFilter = (req, file, callback) => {
-  if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)) {
-    return callback(new Error('Only image files are allowed!'), false);
+  if (!file.originalname.match(/\.(jpg|jpeg|png|gif|doc|docx|txt|xls|xlsx|pdf|mp4|mov)$/)) {
+    return callback(new Error('Only image and documents files are allowed!'), false);
   }
   callback(null, true);
 };
@@ -62,7 +65,7 @@ export class TasksController {
         createTaskDto.createdBy,
       );
       let checkProjectId = await this.projectSeervice.findOne(
-        createTaskDto.project_Id,
+        createTaskDto.projectId,
       );
       if (!checkCreatedBy) {
         res.json({
@@ -141,6 +144,7 @@ export class TasksController {
           table: err.table,
         },
       });
+
     }
   }
 
@@ -203,7 +207,7 @@ export class TasksController {
             fileReponse,
             createdAttachmentDto,
           );
-          console.log('data', data);
+          // console.log('data', data);
         });
         res.json({
           status: 200,
@@ -231,6 +235,17 @@ export class TasksController {
       status: 200,
       message: `All ${type}`,
       Data: data,
+    });
+  }
+
+  @ApiParam({ name: 'fileType', enum: attchmentType })
+  @Get('attachments/alldocs/:fileType')
+  async docs(@Res() res, @Param('fileType') fileType: string) {
+    let data = await this.tasksService.getdocs(fileType)
+    res.json({
+      status: 200,
+      message: `All ${fileType}`,
+      Data: data
     });
   }
 
@@ -287,4 +302,8 @@ export class TasksController {
       Data: deleted,
     });
   }
+
 }
+
+
+
