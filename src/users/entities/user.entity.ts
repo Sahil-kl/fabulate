@@ -1,5 +1,6 @@
 import { Member } from 'src/projects/entities/member.entity';
 import { Project } from 'src/projects/entities/project.entity';
+import { userTaskWorkFlowSteps } from 'src/task-work-flow/entities/user-task-workflow-steps.entity';
 import { TaskAttachment } from 'src/tasks/entities/attachment.entity';
 import { TaskMember } from 'src/tasks/entities/task-member.entity';
 import { Task } from 'src/tasks/entities/task.entity';
@@ -69,4 +70,10 @@ export class User {
     { lazy: false },
   )
   attachmentId: TaskAttachment[];
+
+  @OneToMany(() => userTaskWorkFlowSteps, (userTaskWorkFlowSteps) => userTaskWorkFlowSteps.userId, { lazy: false })
+    userStepId: userTaskWorkFlowSteps[]; 
+
+    @OneToMany(() => userTaskWorkFlowSteps, (userTaskWorkFlowSteps) => userTaskWorkFlowSteps.assignId, { lazy: false })
+    stepAssignId: userTaskWorkFlowSteps[]; 
 }

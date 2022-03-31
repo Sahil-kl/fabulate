@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Project } from 'src/projects/entities/project.entity';
+import { TaskWorkFlow } from 'src/task-work-flow/entities/task-work-flow.entity';
 import { User } from 'src/users/entities/user.entity';
 
 export enum taskTypes {
@@ -79,6 +80,10 @@ export class Task {
     { lazy: false },
   )
   attachmentId: TaskAttachment[];
+
+  @ManyToOne(() => TaskWorkFlow, (taskWorkflow) => taskWorkflow.taskId)
+  @JoinColumn({name: 'workFlowId'})
+  workFlowId: TaskWorkFlow;
 
   @CreateDateColumn()
   createdDate: Date;

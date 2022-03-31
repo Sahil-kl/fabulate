@@ -7,6 +7,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { UsersModule } from './users/users.module';
 import { APP_INTERCEPTOR } from "@nestjs/core";
 import { MorganModule, MorganInterceptor } from "nest-morgan";
+import { TaskWorkFlowModule } from './task-work-flow/task-work-flow.module';
 @Module({
   imports: [
     ProjectsModule,
@@ -23,6 +24,7 @@ import { MorganModule, MorganInterceptor } from "nest-morgan";
     TasksModule,
     UsersModule,
     MorganModule,
+    TaskWorkFlowModule,
   ],
   controllers: [AppController],
   providers: [AppService, {

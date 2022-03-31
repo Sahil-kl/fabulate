@@ -38,7 +38,7 @@ export class Project {
   userId: User;
 
   @Column({ type: 'timestamp', nullable: true })
-  due_date: Date;
+  dueDate: Date;
 
   @OneToOne(() => Brand, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'brandId' })
